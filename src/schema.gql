@@ -1,0 +1,186 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type SuccessInfo {
+  success: Boolean!
+  message: String!
+}
+
+type RegisterSuccess {
+  success: Boolean!
+  message: String!
+  token: String!
+  expire: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Avatar {
+  url: String
+  id: String
+}
+
+type Provider {
+  name: String
+  id: String
+}
+
+type Contact {
+  address: String
+  country: String
+  city: String
+  zip: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String
+  avatar: Avatar
+  provider: Provider
+  verified: Boolean
+  contact: Contact
+  role: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Subcategory {
+  id: ID!
+  name: String!
+  category: Category!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Category {
+  id: ID!
+  name: String!
+  description: String
+  subCategory: [Subcategory!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  getUsers: [User!]!
+  getSellers: [User!]!
+  getEditors: [User!]!
+  getAdmin: [User!]!
+  getAccount: User!
+  getCategories: [Category!]!
+  getSubCategories: [Subcategory!]!
+}
+
+type Mutation {
+  signup(signupInput: SignupInput!): SuccessInfo!
+  verifyUser(verifyInput: VerifyInput!): RegisterSuccess!
+  login(loginInput: LoginInput!): RegisterSuccess!
+  googleAuth(googleInput: GoogleInput!): RegisterSuccess!
+  facebookAuth(facebookInput: FacebookInput!): RegisterSuccess!
+  updateUser(updateInput: UpdateUserInput!): SuccessInfo!
+  checkEmailAvailability(emailInput: EmailInput!): SuccessInfo!
+  updateEmail(emailInput: EmailInput!): SuccessInfo!
+  verifyEmail(verifyEmailInput: VerifyEmailInput!): RegisterSuccess!
+  updateRole(roleInput: RoleInput!): SuccessInfo!
+  deleteUser(id: ID!): SuccessInfo!
+  deleteAccount: SuccessInfo!
+  addCategory(categoryInput: CategoryInput!): SuccessInfo!
+  updateCategory(updateCateInput: UpdateCateInput!, id: ID!): SuccessInfo!
+  deleteCategory(id: ID!): SuccessInfo!
+  addSubCategory(subCateInput: SubcategoryInput!): SuccessInfo!
+  updateSubCategory(updateSubInput: UpdateSubInput!, id: ID!): SuccessInfo!
+  deleteSubCategory(id: ID!): SuccessInfo!
+}
+
+input SignupInput {
+  name: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String
+  password: String
+  contact: ContactInput
+}
+
+input ContactInput {
+  address: String
+  country: String
+  city: String
+  zip: String
+}
+
+input VerifyInput {
+  email: String!
+  otp: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input GoogleInput {
+  idToken: String!
+}
+
+input FacebookInput {
+  userId: String!
+  accessToken: String!
+}
+
+input UpdateUserInput {
+  name: String
+  firstName: String
+  lastName: String
+  phone: String
+  password: String
+  contact: ContactInput
+  avatar: AvatarInput
+}
+
+input AvatarInput {
+  url: String
+  id: String
+}
+
+input EmailInput {
+  email: String!
+}
+
+input VerifyEmailInput {
+  email: String!
+  otp: String!
+}
+
+input RoleInput {
+  id: ID!
+  role: String!
+}
+
+input CategoryInput {
+  name: String!
+  description: String
+}
+
+input UpdateCateInput {
+  name: String
+  description: String
+}
+
+input SubcategoryInput {
+  name: String!
+  category: ID!
+}
+
+input UpdateSubInput {
+  name: String
+  category: ID
+}
