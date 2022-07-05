@@ -75,6 +75,14 @@ type Subcategory {
   category: Category!
 }
 
+type Brand {
+  id: ID!
+  name: String!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type Query {
   getCategories: [Category!]!
   getSubCategories: [Subcategory!]!
@@ -83,6 +91,8 @@ type Query {
   getEditors: [User!]!
   getAdmin: [User!]!
   getAccount: User!
+  getBrands: [Brand!]!
+  getBrand(id: ID!): Brand!
 }
 
 type Mutation {
@@ -104,6 +114,9 @@ type Mutation {
   updateRole(roleInput: RoleInput!): SuccessInfo!
   deleteUser(id: ID!): SuccessInfo!
   deleteAccount: SuccessInfo!
+  addBrand(brandInput: BrandInput!): SuccessInfo!
+  updateBrand(id: ID!, updateBrandInput: UpdateBrandInput!): SuccessInfo!
+  deleteBrand(id: ID!): SuccessInfo!
 }
 
 input CategoryInput {
@@ -189,4 +202,14 @@ input VerifyEmailInput {
 input RoleInput {
   id: ID!
   role: String!
+}
+
+input BrandInput {
+  name: String!
+  description: String
+}
+
+input UpdateBrandInput {
+  name: String
+  description: String
 }
