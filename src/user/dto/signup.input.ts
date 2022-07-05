@@ -29,6 +29,7 @@ export class ContactInput {
     @IsOptional()
     zip: string;
 }
+
 //Input Types
 @InputType()
 export class SignupInput {

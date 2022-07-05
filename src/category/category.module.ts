@@ -26,7 +26,8 @@ import { UserModule } from "src/user/user.module";
         ]),
         UserModule
     ],
-    providers: [CategoryResolver, SubCategoryResolver, CategoryService]
+    providers: [CategoryResolver, SubCategoryResolver, CategoryService],
+    exports: [CategoryService]
 })
 
 export class CategoryModule { }

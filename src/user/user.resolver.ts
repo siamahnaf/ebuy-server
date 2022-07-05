@@ -3,6 +3,7 @@ import { UseGuards } from "@nestjs/common";
 import { ObjectId } from "mongoose";
 
 //Entites
+import { SignupInfo } from "./entities/signup.entity";
 import { SuccessInfo } from "./entities/sucess.entity";
 import { RegisterSuccess } from "./entities/register.entity";
 import { User } from "./entities/user.entity";
@@ -34,6 +35,7 @@ import { ReqUser } from "src/auth/types/user.types";
 export class UserResolver {
     //Contsructor
     constructor(private readonly userService: UserService) { }
+
     //Get Users
     @Query(() => [User], { name: "getUsers" })
     @Roles(Role.EDITOR, Role.ADMIN)
@@ -41,6 +43,7 @@ export class UserResolver {
     getUsers() {
         return this.userService.users();
     }
+
     //Get sellers
     @Query(() => [User], { name: "getSellers" })
     @Roles(Role.EDITOR, Role.ADMIN)
@@ -48,6 +51,7 @@ export class UserResolver {
     getSellers() {
         return this.userService.sellers();
     }
+
     //Get Editor
     @Query(() => [User], { name: "getEditors" })
     @Roles(Role.ADMIN)
@@ -55,6 +59,7 @@ export class UserResolver {
     getEditors() {
         return this.userService.editors();
     }
+
     //Get Admin
     @Query(() => [User], { name: "getAdmin" })
     @Roles(Role.ADMIN)
@@ -62,6 +67,7 @@ export class UserResolver {
     getAdmin() {
         return this.userService.admin();
     }
+
     //Get Own Account
     @Query(() => User, { name: "getAccount" })
     @UseGuards(AuthGuard)
@@ -70,13 +76,15 @@ export class UserResolver {
     ) {
         return reqUser;
     }
+
     //Create user (Signup User)
-    @Mutation(() => SuccessInfo, { name: "signup" })
+    @Mutation(() => SignupInfo, { name: "signup" })
     signup(
         @Args("signupInput") signupInput: SignupInput
     ) {
         return this.userService.create(signupInput);
     }
+
     //Verify User with otp(One time Password)
     @Mutation(() => RegisterSuccess, { name: "verifyUser" })
     verifyUser(
@@ -84,6 +92,7 @@ export class UserResolver {
     ) {
         return this.userService.verify(verifyInput)
     }
+
     //Login User
     @Mutation(() => RegisterSuccess, { name: "login" })
     loginUser(
@@ -91,6 +100,7 @@ export class UserResolver {
     ) {
         return this.userService.login(loginInput)
     }
+
     //Google Auth
     @Mutation(() => RegisterSuccess, { name: "googleAuth" })
     googleAuth(
@@ -98,12 +108,15 @@ export class UserResolver {
     ) {
         return this.userService.google(googleInput)
     }
+
+    //Facebook Auth
     @Mutation(() => RegisterSuccess, { name: "facebookAuth" })
     facebookAuth(
         @Args("facebookInput") facebookInput: FacebookInput
     ) {
         return this.userService.facebook(facebookInput);
     }
+
     //Update User
     @Mutation(() => SuccessInfo, { name: "updateUser" })
     @UseGuards(AuthGuard)
@@ -113,6 +126,7 @@ export class UserResolver {
     ) {
         return this.userService.update(updateInput, reqUser);
     }
+
     //Check email is available
     @Mutation(() => SuccessInfo, { name: "checkEmailAvailability" })
     checkEmailIsAvailable(
@@ -120,6 +134,7 @@ export class UserResolver {
     ) {
         return this.userService.checkEmail(emailInput)
     }
+
     //Update Email
     @Mutation(() => SuccessInfo, { name: "updateEmail" })
     @UseGuards(AuthGuard)
@@ -129,6 +144,7 @@ export class UserResolver {
     ) {
         return this.userService.updateEmail(emailInput, reqUser);
     }
+
     //Verify Email for Updating
     @Mutation(() => RegisterSuccess, { name: "verifyEmail" })
     @UseGuards(AuthGuard)
@@ -138,6 +154,7 @@ export class UserResolver {
     ) {
         return this.userService.verifyEmail(verifyEmailInput, reqUser);
     }
+
     //Update user role
     @Mutation(() => SuccessInfo, { name: "updateRole" })
     @UseGuards(AuthGuard)
@@ -147,6 +164,7 @@ export class UserResolver {
     ) {
         return this.userService.role(roleInput, reqUser);
     }
+
     //Delete Any user
     @Mutation(() => SuccessInfo, { name: "deleteUser" })
     @Roles(Role.EDITOR, Role.ADMIN)
@@ -157,6 +175,7 @@ export class UserResolver {
     ) {
         return this.userService.deleteUser(id, reqUser);
     }
+
     //Delete Own Account
     @Mutation(() => SuccessInfo, { name: "deleteAccount" })
     @UseGuards(AuthGuard)

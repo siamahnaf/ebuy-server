@@ -1,4 +1,4 @@
-import { Resolver, ResolveField, Parent, Mutation, Query, Args, ID } from "@nestjs/graphql";
+import { Resolver, ResolveField, Parent, Mutation, Query, Args, ID, Context } from "@nestjs/graphql";
 import { UseGuards } from "@nestjs/common";
 import { ObjectId } from "mongoose";
 
@@ -68,8 +68,9 @@ export class CategoryResolver {
     @ResolveField('subCategory', () => [Subcategory])
     getSubCategory(
         @Parent() category: Category,
+        @Context() { loaders }: IGraphQLContext
     ) {
-        console.log(category);
+        return loaders.subCategoryLoader.loadMany(category.subCategory)
     }
 }
 
@@ -119,7 +120,8 @@ export class SubCategoryResolver {
     @ResolveField('category', () => Category)
     getCategory(
         @Parent() subcategory: Subcategory,
+        @Context() { loaders }: IGraphQLContext
     ) {
-        console.log(subcategory);
+        return loaders.categoryLoader.load(subcategory.category);
     }
 }

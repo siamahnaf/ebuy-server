@@ -2,6 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type SignupInfo {
+  success: Boolean!
+  message: String!
+  email: String!
+}
+
 type SuccessInfo {
   success: Boolean!
   message: String!
@@ -52,35 +58,41 @@ type User {
   updatedAt: DateTime
 }
 
-type Subcategory {
-  id: ID!
-  name: String!
-  category: Category!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
 type Category {
   id: ID!
   name: String!
   description: String
-  subCategory: [Subcategory!]!
   createdAt: DateTime!
   updatedAt: DateTime!
+  subCategory: [Subcategory!]!
+}
+
+type Subcategory {
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  category: Category!
 }
 
 type Query {
+  getCategories: [Category!]!
+  getSubCategories: [Subcategory!]!
   getUsers: [User!]!
   getSellers: [User!]!
   getEditors: [User!]!
   getAdmin: [User!]!
   getAccount: User!
-  getCategories: [Category!]!
-  getSubCategories: [Subcategory!]!
 }
 
 type Mutation {
-  signup(signupInput: SignupInput!): SuccessInfo!
+  addCategory(categoryInput: CategoryInput!): SuccessInfo!
+  updateCategory(updateCateInput: UpdateCateInput!, id: ID!): SuccessInfo!
+  deleteCategory(id: ID!): SuccessInfo!
+  addSubCategory(subCateInput: SubcategoryInput!): SuccessInfo!
+  updateSubCategory(updateSubInput: UpdateSubInput!, id: ID!): SuccessInfo!
+  deleteSubCategory(id: ID!): SuccessInfo!
+  signup(signupInput: SignupInput!): SignupInfo!
   verifyUser(verifyInput: VerifyInput!): RegisterSuccess!
   login(loginInput: LoginInput!): RegisterSuccess!
   googleAuth(googleInput: GoogleInput!): RegisterSuccess!
@@ -92,12 +104,26 @@ type Mutation {
   updateRole(roleInput: RoleInput!): SuccessInfo!
   deleteUser(id: ID!): SuccessInfo!
   deleteAccount: SuccessInfo!
-  addCategory(categoryInput: CategoryInput!): SuccessInfo!
-  updateCategory(updateCateInput: UpdateCateInput!, id: ID!): SuccessInfo!
-  deleteCategory(id: ID!): SuccessInfo!
-  addSubCategory(subCateInput: SubcategoryInput!): SuccessInfo!
-  updateSubCategory(updateSubInput: UpdateSubInput!, id: ID!): SuccessInfo!
-  deleteSubCategory(id: ID!): SuccessInfo!
+}
+
+input CategoryInput {
+  name: String!
+  description: String
+}
+
+input UpdateCateInput {
+  name: String
+  description: String
+}
+
+input SubcategoryInput {
+  name: String!
+  category: ID!
+}
+
+input UpdateSubInput {
+  name: String
+  category: ID
 }
 
 input SignupInput {
@@ -163,24 +189,4 @@ input VerifyEmailInput {
 input RoleInput {
   id: ID!
   role: String!
-}
-
-input CategoryInput {
-  name: String!
-  description: String
-}
-
-input UpdateCateInput {
-  name: String
-  description: String
-}
-
-input SubcategoryInput {
-  name: String!
-  category: ID!
-}
-
-input UpdateSubInput {
-  name: String
-  category: ID
 }

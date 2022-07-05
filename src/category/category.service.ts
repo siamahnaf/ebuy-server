@@ -29,6 +29,17 @@ export class CategoryService {
         return categories;
     }
 
+    //Get all category by batch service
+    async findCategoryByBatch(Ids: ObjectId[]): Promise<(Category | Error)[]> {
+        const categories = await this.categoryModel.find({ _id: { $in: Ids } });
+        const mappedResults = Ids.map(
+            (id) =>
+                categories.find((result) => result.id === id) ||
+                new Error(`Could not load owner ${id}`),
+        );
+        return mappedResults;
+    }
+
     //Get all subcategory service
     async subcategories() {
         const subcategories = await this.subCategoryModel.find();
@@ -36,8 +47,14 @@ export class CategoryService {
     }
 
     //Subcategory batch service
-    async SubcategoryBatch() {
-        const category = await this.categoryModel.find
+    async findSubCategoryByBatch(Ids: ObjectId[]): Promise<(Subcategory | Error)[]> {
+        const categories = await this.subCategoryModel.find({ _id: { $in: Ids } });
+        const mappedResults = Ids.map(
+            (id) =>
+                categories.find((result) => result.id == id) ||
+                new Error(`Could not load owner ${id}`),
+        );
+        return mappedResults;
     }
 
     //Add category service

@@ -14,18 +14,27 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { UserModule } from "./user/user.module";
 import { CategoryModule } from "./category/category.module";
 
+//Dataloader
+import { DataloaderService } from "./dataloader/dataloader.service";
+import { DataloaderModule } from "./dataloader/dataloader.module";
+
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      installSubscriptionHandlers: true,
-      playground: false,
-      path: "ebuy",
-      context: ({ req }) => ({
-        headers: req.headers
-      }),
-      plugins: [ApolloServerPluginLandingPageLocalDefault()]
+      imports: [DataloaderModule],
+      inject: [DataloaderService],
+      useFactory: (dataloaderService: DataloaderService) => ({
+        autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+        installSubscriptionHandlers: true,
+        playground: false,
+        path: "ebuy",
+        plugins: [ApolloServerPluginLandingPageLocalDefault()],
+        context: ({ req }) => ({
+          headers: req.headers,
+          loaders: dataloaderService.createLoaders()
+        })
+      })
     }),
     MailerModule.forRoot({
       transport: {

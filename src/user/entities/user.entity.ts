@@ -12,6 +12,7 @@ class Avatar {
     @Field(() => String, { nullable: true })
     id: string;
 }
+
 //Provider
 @ObjectType()
 class Provider {
@@ -20,6 +21,7 @@ class Provider {
     @Field(() => String, { nullable: true })
     id: string;
 }
+
 //Contact
 @ObjectType()
 class Contact {
@@ -32,6 +34,7 @@ class Contact {
     @Field(() => String, { nullable: true })
     zip: string;
 }
+
 //User
 @ObjectType()
 export class User {

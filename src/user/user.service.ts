@@ -26,8 +26,10 @@ import { VerifyEmailInput } from "./dto/verify-email.input";
 import { RoleInput } from "./dto/user-role.input";
 
 //Entities
+import { SignupInfo } from "./entities/signup.entity";
 import { SuccessInfo } from "./entities/sucess.entity";
 import { RegisterSuccess } from "./entities/register.entity";
+
 
 //Google oAuth Authentication
 const client = new OAuth2Client(process.env.GOOGLE_ID);
@@ -42,6 +44,7 @@ export class UserService {
         @InjectModel(User.name) private userModel: Model<UserDocument>,
         private mailService: MailerService
     ) { }
+
     //Get users service
     async users() {
         const user = await this.userModel.find({
@@ -49,6 +52,7 @@ export class UserService {
         });
         return user;
     }
+
     //Get sellers service
     async sellers() {
         const seller = await this.userModel.find({
@@ -56,6 +60,7 @@ export class UserService {
         });
         return seller;
     }
+
     //Get editor service
     async editors() {
         const editor = await this.userModel.find({
@@ -63,6 +68,7 @@ export class UserService {
         });
         return editor;
     }
+
     //Get admin service
     async admin() {
         const admin = await this.userModel.find({
@@ -70,8 +76,9 @@ export class UserService {
         });
         return admin;
     }
+
     //Create User Service(Signup)
-    async create(signupInput: SignupInput): Promise<SuccessInfo> {
+    async create(signupInput: SignupInput): Promise<SignupInfo> {
         const user = await this.userModel.findOne({
             email: signupInput.email
         })
@@ -97,9 +104,11 @@ export class UserService {
         })
         return {
             success: true,
-            message: `Code sent to ${signupInput.email} successfully!`
+            message: "Code sent to your email successfully!",
+            email: signupInput.email
         }
     }
+
     //Verify user service
     async verify(verifyInput: VerifyInput): Promise<RegisterSuccess> {
         const user = await this.userModel.findOne({
@@ -123,6 +132,7 @@ export class UserService {
             expire
         }
     }
+
     //Login user service
     async login(loginInput: LoginInput): Promise<RegisterSuccess> {
         const user = await this.userModel.findOne({
@@ -143,6 +153,7 @@ export class UserService {
             expire
         }
     }
+
     //Login with google service
     async google({ idToken }: GoogleInput): Promise<RegisterSuccess> {
         const clientId = process.env.GGOOGLE_ID;
@@ -186,6 +197,7 @@ export class UserService {
             }
         }
     }
+
     //Login with facebook service
     async facebook({ userId, accessToken }: FacebookInput): Promise<RegisterSuccess> {
         let urlGraphFacebook = `https://graph.facebook.com/v2.11/${userId}/?fields=id,name,picture,email&access_token=${accessToken}`;
@@ -230,6 +242,7 @@ export class UserService {
             }
         }
     }
+
     //Update user service
     async update(updateInput: UpdateUserInput, reqUser: ReqUser): Promise<SuccessInfo> {
         const password = await bcrypt.hash(updateInput.password, 10);
@@ -243,6 +256,7 @@ export class UserService {
             message: "User updated successfully!"
         }
     }
+
     // Check email availability
     async checkEmail(emailInput: EmailInput): Promise<SuccessInfo> {
         const user = await this.userModel.findOne({
@@ -257,6 +271,7 @@ export class UserService {
             message: "Email is available!"
         }
     }
+
     //Update email
     async updateEmail(emailInput: EmailInput, reqUser: ReqUser): Promise<SuccessInfo> {
         const user = await this.userModel.findOne({
@@ -283,6 +298,7 @@ export class UserService {
             message: "Code to sent your email. Please verify your email!"
         }
     }
+
     //Update email for verify
     async verifyEmail(verifyEmailInput: VerifyEmailInput, reqUser: ReqUser): Promise<RegisterSuccess> {
         const user = await this.userModel.findOne({
@@ -305,6 +321,7 @@ export class UserService {
             expire
         }
     }
+
     //Update user role
     async role(roleInput: RoleInput, reqUser: ReqUser): Promise<SuccessInfo> {
         const user = await this.userModel.findOne({
@@ -343,6 +360,7 @@ export class UserService {
             message: "You successfully changed user role!"
         }
     }
+
     //Delete user
     async deleteUser(id: ObjectId, reqUser: ReqUser): Promise<SuccessInfo> {
         const user = await this.userModel.findOne({
@@ -356,6 +374,7 @@ export class UserService {
             message: "User deleted successfully!"
         }
     }
+
     //Delete own account
     async deleteAccount(reqUser: ReqUser): Promise<SuccessInfo> {
         if (reqUser.role === "admin" || reqUser.role === "editor") throw new NotFoundException("You can't delete your account!");

@@ -2,7 +2,7 @@ import { InputType, Field } from "@nestjs/graphql";
 import { IsString, IsOptional, IsNotEmpty, IsNotEmptyObject, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 
-//import input type
+//Import input type
 import { ContactInput } from "./signup.input";
 
 //Avatar Input
