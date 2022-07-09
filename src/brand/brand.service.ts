@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model, ObjectId } from "mongoose";
 
 //Schema 
-import { Brand, BrandDocument } from "./model/brand.model";
+import { Brand, BrandDocument } from "./model/brand.schema";
 
 //Dto
 import { BrandInput } from "./dto/brand.input";

@@ -14,6 +14,9 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { UserModule } from "./user/user.module";
 import { CategoryModule } from "./category/category.module";
 import { BrandModule } from "./brand/brand.module";
+import { ColorModule } from "./color/color.module";
+import { TagModule } from "./tag/tag.module";
+import { CouponModule } from "./coupon/coupon.module";
 
 //Dataloader
 import { DataloaderService } from "./dataloader/dataloader.service";
@@ -51,7 +54,10 @@ import { DataloaderModule } from "./dataloader/dataloader.module";
     MongooseModule.forRoot(process.env.MONGODB_LOCAL_URL),
     UserModule,
     CategoryModule,
-    BrandModule
+    BrandModule,
+    ColorModule,
+    TagModule,
+    CouponModule
   ]
 })
 export class AppModule { }

@@ -6,7 +6,7 @@ import { BrandService } from "./brand.service";
 import { BrandResolver } from "./brand.resolver";
 
 //Schema
-import { Brand, BrandSchema } from "./model/brand.model";
+import { Brand, BrandSchema } from "./model/brand.schema";
 
 //Module
 import { UserModule } from "src/user/user.module";

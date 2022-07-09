@@ -83,6 +83,22 @@ type Brand {
   updatedAt: DateTime!
 }
 
+type Color {
+  id: ID!
+  name: String!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Tag {
+  id: ID!
+  name: String!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type Query {
   getCategories: [Category!]!
   getSubCategories: [Subcategory!]!
@@ -93,6 +109,11 @@ type Query {
   getAccount: User!
   getBrands: [Brand!]!
   getBrand(id: ID!): Brand!
+  getColors: [Color!]!
+  getColor(id: ID!): Color!
+  getTags: [Tag!]!
+  getTag(id: ID!): Tag!
+  getCoupon: String!
 }
 
 type Mutation {
@@ -117,6 +138,12 @@ type Mutation {
   addBrand(brandInput: BrandInput!): SuccessInfo!
   updateBrand(id: ID!, updateBrandInput: UpdateBrandInput!): SuccessInfo!
   deleteBrand(id: ID!): SuccessInfo!
+  addColor(colorInput: ColorInput!): SuccessInfo!
+  updateColor(id: ID!, updateColorInput: UpdateColorInput!): SuccessInfo!
+  deleteColor(id: ID!): SuccessInfo!
+  addTag(tagInput: TagInput!): SuccessInfo!
+  updateTag(id: ID!, updateTagInput: UpdateTagInput!): SuccessInfo!
+  deleteTag(id: ID!): SuccessInfo!
 }
 
 input CategoryInput {
@@ -211,5 +238,28 @@ input BrandInput {
 
 input UpdateBrandInput {
   name: String
+  description: String
+}
+
+input ColorInput {
+  name: String!
+  code: String!
+  description: String
+}
+
+input UpdateColorInput {
+  name: String
+  code: String
+  description: String
+}
+
+input TagInput {
+  name: String!
+  description: String
+}
+
+input UpdateTagInput {
+  name: String
+  code: String
   description: String
 }

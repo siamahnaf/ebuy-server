@@ -1,3 +1,4 @@
+import { UseGuards } from "@nestjs/common";
 import { Resolver, Mutation, Query, Args, ID } from "@nestjs/graphql";
 import { ObjectId } from "mongoose";
 
@@ -18,7 +19,6 @@ import { Roles } from "src/auth/decorator/auth.decorator";
 import { Role } from "src/auth/enum/auth.enum";
 import { AuthGuard } from "src/auth/auth.guard";
 import { RolesGuard } from "src/auth/roles.guard";
-import { UseGuards } from "@nestjs/common";
 
 @Resolver()
 export class BrandResolver {
